@@ -1,0 +1,40 @@
+.mainSlide,
+.mainSlide swiper-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img {
+    width: 120px;
+}
+
+.pick-avatar {
+    width: 80px;
+    opacity: 0.3;
+}
+
+.pick-avatar-seleccionado {
+    transition: opacity 0.5s linear;
+    opacity: 1 !important;
+}
+
+.avatar-col {
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-col img {
+    display: block;
+}
+
+.button-col {
+  display: flex;
+  justify-content: center;
+}
+
+.button-col ion-button {
+  display: block;
+}

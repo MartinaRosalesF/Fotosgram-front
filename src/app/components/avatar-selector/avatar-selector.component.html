@@ -1,0 +1,23 @@
+<ion-row>
+  <ion-col>
+    <h3>Seleccione Avatar</h3>
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col>
+
+    <!-- Swiper interno -->
+    <swiper-container nested="true" touch-start-prevent-default="false" space-between="10" slides-per-view="3.5">
+      @for (avatar of avatars; track $index) {
+      <swiper-slide>
+        <ion-img class="pick-avatar" src="/assets/avatars/{{avatar.img}}"
+          [ngClass]="{'pick-avatar-seleccionado':avatar.seleccionado}" (click)="seleccionarAvatar(avatar)">
+        </ion-img>
+      </swiper-slide>
+      }
+
+    </swiper-container>
+
+  </ion-col>
+</ion-row>

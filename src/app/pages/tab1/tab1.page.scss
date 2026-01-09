@@ -1,0 +1,10 @@
+ion-header {
+  box-shadow: none;
+}
+ion-toolbar {
+  --border-width: 0;
+  --box-shadow: none;
+}
+ion-header::after {
+  background-image: none;
+}
