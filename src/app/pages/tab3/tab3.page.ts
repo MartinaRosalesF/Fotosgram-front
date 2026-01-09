@@ -41,6 +41,8 @@ export class Tab3Page implements OnInit {
     }
   }
 
-  logout() { }
+  logout() {
+    this.usuarioService.logout();
+  }
 
 }

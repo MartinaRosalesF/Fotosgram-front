@@ -13,7 +13,7 @@ const apiUrl = environment.apiUrl;
 export class UsuarioService {
 
   token: string | null = null;
-  usuario: Usuario = {};
+  usuario: Usuario| null = {};
 
   constructor(private http: HttpClient, private storage: Storage, private navCtrl: NavController) {
     storage.create();
@@ -55,7 +55,7 @@ export class UsuarioService {
 
   getUsuario() {
 
-    if (!this.usuario._id) {
+    if (!this.usuario?._id) {
       this.validaToken();
     }
 
@@ -79,7 +79,7 @@ export class UsuarioService {
     return new Promise<boolean>(resolve => {
 
       if (!this.token) {
-        this.navCtrl.navigateRoot('login');
+         this.navCtrl.navigateRoot('login', {animated:true});
         resolve(false);
         return;
       }
@@ -94,7 +94,7 @@ export class UsuarioService {
           this.usuario = res['usuario'];
           resolve(true);
         } else {
-          this.navCtrl.navigateRoot('login');
+           this.navCtrl.navigateRoot('login', {animated:true});
           resolve(false);
         }
 
@@ -108,7 +108,7 @@ export class UsuarioService {
     return new Promise(resolve => {
 
       if (!this.token) {
-        this.navCtrl.navigateRoot('login');
+         this.navCtrl.navigateRoot('login', {animated:true});
         resolve(false);
         return;
       }
@@ -132,6 +132,13 @@ export class UsuarioService {
       });
     });
 
+  }
+
+  logout(){
+    this.token = null;
+    this.usuario = null;
+    this.storage.clear();
+    this.navCtrl.navigateRoot('login', {animated:true});
   }
 
 }
