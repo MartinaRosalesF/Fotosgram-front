@@ -120,7 +120,7 @@ export class UsuarioService {
       this.http.post(`${apiUrl}/user/update`, usuario, { headers }).subscribe((res: any) => {
 
         if (res['ok']) {
-          
+
           this.guardarToken(res['token']);
           resolve(true);
 
@@ -129,8 +129,8 @@ export class UsuarioService {
           resolve(false);
 
         }
-      })
-    })
+      });
+    });
 
   }
 
