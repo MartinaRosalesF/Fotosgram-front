@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-avatar-selector',
@@ -9,6 +9,15 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class AvatarSelectorComponent implements OnInit {
 
   @Output() avatarSeleccionado = new EventEmitter<string>();
+
+  @Input() avatarUsuario: string | null = 'av-1.png';
+
+  @ViewChild('swiperRef', { static: false }) swiperRef!: any;
+
+  get swiper() {
+    return this.swiperRef.nativeElement.swiper;
+  }
+
 
   avatars = [
     {
@@ -45,9 +54,29 @@ export class AvatarSelectorComponent implements OnInit {
     },
   ];
 
+  slideIndex = 0;
+
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.avatars.forEach(av => av.seleccionado = false);
+
+    for (let i = 0; i < this.avatars.length; i++) {
+      if (this.avatars[i].img === this.avatarUsuario) {
+        this.avatars[i].seleccionado = true;
+        this.slideIndex = i;
+        break;
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    // Esperamos a que el swiper esté inicializado
+    setTimeout(() => {
+        this.swiper.slideTo(this.slideIndex, 0); // 0ms sin animación
+    }, 0);
+  }
+
 
   seleccionarAvatar(avatar: any) {
 
