@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostService } from 'src/app/services/post.service';
 import { Geolocation } from '@capacitor/geolocation';
+import { Camera, CameraResultType, CameraSource, ImageOptions } from '@capacitor/camera';
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -20,7 +22,7 @@ export class Tab2Page {
     posicion: false
   }
 
-  constructor(private postService: PostService, private route: Router, private geoLocation: Geolocation) { }
+  constructor(private postService: PostService, private route: Router) { }
 
   async crearPost() {
 
@@ -61,6 +63,20 @@ export class Tab2Page {
     }
   }
 
+  async sacarFoto() {
 
+    const image = await Camera.getPhoto({
+      quality: 90,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera,
+      correctOrientation: true
+    });
+
+    if(image.webPath){
+    this.tempImages.push(image.webPath)
+    }
+
+
+  }
 
 }
