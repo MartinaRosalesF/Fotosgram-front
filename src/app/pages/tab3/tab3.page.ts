@@ -23,7 +23,7 @@ export class Tab3Page implements OnInit {
   }
 
   async actualizar(fActualizar: NgForm) {
-    
+
     if (fActualizar.invalid) {
       return;
     }
@@ -32,11 +32,11 @@ export class Tab3Page implements OnInit {
 
     if (actualizado) {
 
-      this.uiService.alertaInformativa('Usuario actualizado correctamente');
+      this.uiService.presentToast('top', 'Usuario actualizado correctamente');
 
     } else {
 
-      this.uiService.alertaInformativa('Hubo un problema para actualizar');
+      this.uiService.presentToast('top', 'Hubo un problema para actualizar');
 
     }
   }
