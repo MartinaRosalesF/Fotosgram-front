@@ -5,9 +5,7 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button (click)="crearPost()" 
-      [disabled]="post.mensaje.length < 1"
-      color="primary">
+      <ion-button (click)="crearPost()" [disabled]="post.mensaje.length < 1 || cargandoLocation" color="primary">
         Compartir
       </ion-button>
     </ion-buttons>
@@ -27,8 +25,12 @@
     <ion-list>
       <ion-item>
         <ion-label>Posición actual</ion-label>
+
+        @if(cargandoLocation){
         <ion-spinner name="lines-small"></ion-spinner>
-        <ion-toggle slot="end"></ion-toggle>
+        }
+
+        <ion-toggle slot="end" name="posicion" [(ngModel)]="post.posicion" (ionChange)="getLocation()"></ion-toggle>
       </ion-item>
     </ion-list>
 

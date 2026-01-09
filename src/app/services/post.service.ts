@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Post, RespuestaPosts } from '../interfaces/interfaces';
 import { UsuarioService } from './usuario.service';
@@ -13,6 +13,8 @@ const apiUrl = environment.apiUrl;
 export class PostService {
 
   paginaPosts = 0;
+
+  nuevoPost = new EventEmitter<Post>();
 
   constructor(private http: HttpClient, private usuarioService: UsuarioService, private navCtrl: NavController) { }
 
@@ -47,6 +49,7 @@ export class PostService {
         console.log(res);
         if (res['ok']) {
 
+          this.nuevoPost.emit(res['postDB']);
           resolve(true);
 
         } else {
