@@ -12,27 +12,35 @@ import { Camera, CameraResultType, CameraSource, ImageOptions } from '@capacitor
 })
 export class Tab2Page {
 
-  tempImages: string[] = [];
+  tempImages: { path: string, name: string }[] = [];
 
   cargandoLocation: boolean = false;
 
-  post = {
+  post: any = {
     mensaje: '',
     coords: '',
-    posicion: false
+    posicion: false,
+    imgs: []
   }
 
   constructor(private postService: PostService, private route: Router) { }
 
   async crearPost() {
 
+    this.tempImages.forEach((img: any) => {
+      this.post.imgs.push(img.name)
+    });
+
     await this.postService.crearPost(this.post);
 
     this.post = {
       mensaje: '',
       coords: '',
-      posicion: false
+      posicion: false,
+      imgs: []
     };
+
+    this.tempImages = [];
 
     this.route.navigateByUrl('main/tab1');
 
@@ -65,17 +73,33 @@ export class Tab2Page {
 
   async sacarFoto() {
 
+    this.procesarImagen(CameraSource.Camera);
+
+  }
+
+  elegirImagen() {
+
+    this.procesarImagen(CameraSource.Photos);
+
+  }
+
+  async procesarImagen(source: CameraSource) {
+
     const image = await Camera.getPhoto({
       quality: 90,
       resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
+      source: source,
       correctOrientation: true
     });
 
-    if(image.webPath){
-    this.tempImages.push(image.webPath)
-    }
 
+    if (image.webPath) {
+      const imagenSubida: any = await this.postService.subirImagen(image.webPath);
+      if (imagenSubida.ok) {
+        this.tempImages.push({ path: image.webPath, name: imagenSubida.name });
+      }
+
+    }
 
   }
 

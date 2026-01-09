@@ -45,7 +45,7 @@
       </ion-button>
     </ion-col>
     <ion-col size="6">
-      <ion-button expand="full" shape="round">
+      <ion-button expand="full" shape="round" (click)="elegirImagen()">
         <ion-icon slot="start" name="images"></ion-icon>
         Galería
       </ion-button>
@@ -57,7 +57,7 @@
 
     <ion-col size="3">
       <ion-card>
-        <img [src]="image">
+        <img [src]="image.path">
       </ion-card>
     </ion-col>
 

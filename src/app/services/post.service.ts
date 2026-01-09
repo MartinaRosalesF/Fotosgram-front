@@ -63,4 +63,42 @@ export class PostService {
 
   }
 
+
+  async subirImagen(img: string) {
+    return new Promise(async (resolve, reject) => {
+
+      try {
+
+        const response = await fetch(img);
+        const blob = await response.blob();
+
+        const file = new File([blob], `foto_${Date.now()}.jpg`, {
+          type: blob.type
+        });
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const headers = {
+          'x-token': this.usuarioService.token || ''
+        };
+
+        this.http.post(`${apiUrl}/posts/upload`, formData, { headers })
+          .subscribe({
+            next: (res: any) => {
+              resolve(res);
+            },
+            error: err => {
+              reject(err);
+            }
+          });
+
+      } catch (err) {
+        reject(err);
+      }
+
+    });
+  }
+
+
 }
