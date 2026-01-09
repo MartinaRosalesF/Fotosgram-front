@@ -22,10 +22,10 @@ export class UsuarioService {
   login(email: string, password: string) {
     const data = { email, password };
     return new Promise(resolve => {
-      this.http.post(`${apiUrl}/user/login`, data).subscribe((res: any) => {
+      this.http.post(`${apiUrl}/user/login`, data).subscribe(async (res: any) => {
 
         if (res.ok) {
-          this.guardarToken(res.token);
+          await this.guardarToken(res.token);
           resolve(true);
         } else {
           this.token = null;
@@ -39,10 +39,10 @@ export class UsuarioService {
 
   registro(usuario: Usuario) {
     return new Promise(resolve => {
-      this.http.post(`${apiUrl}/user/create`, usuario).subscribe((res: any) => {
+      this.http.post(`${apiUrl}/user/create`, usuario).subscribe(async (res: any) => {
 
         if (res.ok) {
-          this.guardarToken(res.token);
+          await this.guardarToken(res.token);
           resolve(true);
         } else {
           this.token = null;
@@ -66,6 +66,8 @@ export class UsuarioService {
   async guardarToken(token: string) {
     this.token = token;
     await this.storage.set('token', token);
+
+    this.validaToken();
   }
 
   async cargarToken() {
